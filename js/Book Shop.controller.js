@@ -16,15 +16,22 @@ function render() {
   const books = getBooks()
   const strHtmls = books.map(
     (book) => `<tr>
-    <td class="book-name">${book.title}</td>
-    <td class="book-price">${book.price}</td>
+    <td class="book-name">'${book.title}'</td>
+    <td class="book-price">'${book.price}'</td>
     <td class="actions-section">
         <button class="btn read">Read</button>
         <button class="btn update">Update</button>
-        <button class="btn delete" onclick="onRemoveBook(event, ${book.id})">Delete</button>
+        <button class="btn delete" onclick="onRemoveBook(event, '${book.id}')">Delete</button>
     </td>
 </tr>`
   )
   strHTML += strHtmls.join('') + `</table>`
   elTable.innerHTML = strHTML
+}
+
+function onRemoveBook(ev, bookId) {
+  ev.stopPropagation()
+
+  removeBook(bookId)
+  render()
 }
