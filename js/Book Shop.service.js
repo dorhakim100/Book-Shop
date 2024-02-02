@@ -11,7 +11,15 @@ function getBooks() {
 }
 
 function removeBook(bookId) {
-  console.log('bookId:', bookId)
   const idx = gBooks.findIndex((book) => book.id === bookId)
   gBooks.splice(idx, 1)
+}
+
+function updatePrice(bookId) {
+  const newPrice = +prompt(`What's the new price?`)
+  console.log('bookId:', bookId)
+  // const idx = gBooks.findIndex((book) => book.id === bookId)
+  gBooks.map((book) => {
+    if (book.id === bookId) book.price = newPrice
+  })
 }
