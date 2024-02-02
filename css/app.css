@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+    /* justify x axle */
+    /* align y axle */ 
+
+    table{
+        text-align: center;
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin: 40px auto; 
+    width: 95vw;
+    }
+
+    .title{
+        font-size: 20px;
+    }
+    
+    .price{
+        font-size: 20px;
+        
+    }
+    
+    .actions{
+        font-size: 20px;
+
+    }
+
+    td  {
+        font-family: monospace;
+        /* font-size: 30px; */
+        /* width: 50px;
+        height: 50px; */
+        text-align: center;
+        border: 1px solid rgb(0, 0, 0);
+        color: rgb(0, 0, 0);
+        transition: 400ms;
+    }
+
+    .table tr:nth-child(odd) {
+        background-color: lightgray;
+    }
+
+    .btn {
+        border-radius: 20%;
+        cursor: pointer;
+    }
+
+    .read{
+        background-color: aquamarine;
+    }
+
+    .update{
+        background-color: yellow;
+    }
+
+    .delete{
+        background-color: orange;
+    }
