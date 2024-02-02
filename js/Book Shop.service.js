@@ -1,9 +1,14 @@
 'use strict'
 
 const gBooks = [
-  { id: makeId(), title: 'The Adventures', price: 120, imgUrl: 'jibrish.jpg' },
-  { id: makeId(), title: 'World', price: 100, imgUrl: 'jibrish.jpg' },
-  { id: makeId(), title: 'Zorba', price: 90, imgUrl: 'jibrish.jpg' },
+  {
+    id: makeId(),
+    title: 'The Adventures',
+    price: 120,
+    imgUrl: 'The Adventures.jpg',
+  },
+  { id: makeId(), title: 'World', price: 100, imgUrl: 'World.jpg' },
+  { id: makeId(), title: 'Zorba', price: 90, imgUrl: 'Zorba.jpg' },
 ]
 
 function getBooks() {
@@ -17,8 +22,6 @@ function removeBook(bookId) {
 
 function updatePrice(bookId) {
   const newPrice = +prompt(`What's the new price?`)
-  //   console.log('bookId:', bookId)
-  // const idx = gBooks.findIndex((book) => book.id === bookId)
   gBooks.map((book) => {
     if (book.id === bookId) book.price = newPrice
   })
@@ -27,7 +30,6 @@ function updatePrice(bookId) {
 function addBook(txt) {
   const newBook = _createBook(txt)
   console.log('newBook.price:', newBook.price)
-  //   newBook.price = updatePrice(newBook.id)
   gBooks.unshift(newBook)
   return newBook
 }
@@ -38,4 +40,9 @@ function _createBook(txt) {
     title: txt,
     price: +prompt(`What's the new price?`),
   }
+}
+
+function readBook(bookId) {
+  const book = gBooks.find((book) => book.id === bookId)
+  return book
 }

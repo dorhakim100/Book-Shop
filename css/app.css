@@ -57,3 +57,8 @@
     .delete{
         background-color: orange;
     }
+
+    .book-details {
+        border: 1px solid lightgray;
+    }
+
