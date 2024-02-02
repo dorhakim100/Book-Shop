@@ -42,3 +42,11 @@ function onUpdateBook(ev, bookId) {
   updatePrice(bookId)
   render()
 }
+
+function onAddBook(ev) {
+  ev.preventDefault()
+  const elInput = document.querySelector('.new-book input')
+  addBook(elInput.value)
+  elInput.value = ''
+  render()
+}

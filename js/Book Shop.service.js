@@ -17,9 +17,25 @@ function removeBook(bookId) {
 
 function updatePrice(bookId) {
   const newPrice = +prompt(`What's the new price?`)
-  console.log('bookId:', bookId)
+  //   console.log('bookId:', bookId)
   // const idx = gBooks.findIndex((book) => book.id === bookId)
   gBooks.map((book) => {
     if (book.id === bookId) book.price = newPrice
   })
+}
+
+function addBook(txt) {
+  const newBook = _createBook(txt)
+  console.log('newBook.price:', newBook.price)
+  //   newBook.price = updatePrice(newBook.id)
+  gBooks.unshift(newBook)
+  return newBook
+}
+
+function _createBook(txt) {
+  return {
+    id: makeId(),
+    title: txt,
+    price: +prompt(`What's the new price?`),
+  }
 }
