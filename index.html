@@ -11,6 +11,16 @@
 
 <body onload="onInit()">
 <h1>Book Shop</h1>
+<section class="filter">
+    <span>Filter by:</span>
+    <select onchange="onSetFilterBy(this)">
+        <option value="">All</option>
+        <option value="title-A-Z">Title (A-Z)</option>
+        <option value="title-Z-A">Title (Z-A)</option>
+        <option value="price-High-Low">Price (High-Low)</option>
+        <option value="price-Low-High">Price (Low-High)</option>
+    </select>
+</section>
 <form onsubmit="onAddBook(event)" class="new-book">
     <input type="text" placeholder="What's the book's title?">
     <button>Add</button>

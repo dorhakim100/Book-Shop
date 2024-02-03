@@ -1,11 +1,12 @@
 'use strict'
 
+var gFilterBy
+
 function onInit() {
   render()
 }
 
 function render() {
-  console.log('works')
   const elTable = document.querySelector('.container')
   var strHTML = `<table class="table">
   <tr>
@@ -13,7 +14,7 @@ function render() {
       <td class="price">Price</td>
       <td class="actions">Actions</td>
   </tr>`
-  const books = getBooks()
+  const books = getBooks(gFilterBy)
   const strHtmls = books.map(
     (book) => `<tr>
     <td class="book-name">'${book.title}'</td>
@@ -70,4 +71,10 @@ function onDetailsBook(ev, bookId) {
   elImg.innerHTML = `<img src="js/Covers/${book.imgUrl}" alt="" height="500"</img>`
 
   elModal.showModal()
+}
+
+function onSetFilterBy(elFilterBy) {
+  console.log('elFilterBy:', elFilterBy.value)
+  gFilterBy = elFilterBy.value
+  render()
 }

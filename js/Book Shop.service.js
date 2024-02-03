@@ -12,8 +12,61 @@ var gBooks = [
 ]
 _createBooks()
 
-function getBooks() {
-  return gBooks
+function getBooks(filterBy) {
+  if (!filterBy) return gBooks
+  var booksOrder = []
+  var sorted = []
+  switch (filterBy) {
+    case 'title-A-Z':
+      booksOrder = gBooks.reduce((acc, book) => {
+        acc.push(book.title)
+        return acc
+      }, [])
+      booksOrder.sort()
+      sorted = gBooks.reduce((acc, book, idx) => {
+        const currBook = gBooks.find((book) => book.title === booksOrder[idx])
+        acc.push(currBook)
+        return acc
+      }, [])
+      break
+    case 'title-Z-A':
+      booksOrder = gBooks.reduce((acc, book) => {
+        acc.push(book.title)
+        return acc
+      }, [])
+      booksOrder.sort().reverse()
+      sorted = gBooks.reduce((acc, book, idx) => {
+        const currBook = gBooks.find((book) => book.title === booksOrder[idx])
+        acc.push(currBook)
+        return acc
+      }, [])
+      break
+    case 'price-High-Low':
+      booksOrder = gBooks.reduce((acc, book) => {
+        acc.push(book.price)
+        return acc
+      }, [])
+      booksOrder.sort().reverse()
+      sorted = gBooks.reduce((acc, book, idx) => {
+        const currBook = gBooks.find((book) => book.price === booksOrder[idx])
+        acc.push(currBook)
+        return acc
+      }, [])
+      break
+    case 'price-Low-High':
+      booksOrder = gBooks.reduce((acc, book) => {
+        acc.push(book.price)
+        return acc
+      }, [])
+      booksOrder.sort()
+      sorted = gBooks.reduce((acc, book, idx) => {
+        const currBook = gBooks.find((book) => book.price === booksOrder[idx])
+        acc.push(currBook)
+        return acc
+      }, [])
+      break
+  }
+  return sorted
 }
 
 function removeBook(bookId) {

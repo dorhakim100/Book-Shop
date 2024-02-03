@@ -72,3 +72,9 @@ function makeId(length = 5) {
   }
   return id
 }
+
+function compare(a, b, compareBy) {
+  if (a.compareBy < b.compareBy) return -1
+  if (a.compareBy > b.compareBy) return 1
+  return 0
+}
