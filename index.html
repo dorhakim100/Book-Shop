@@ -25,6 +25,10 @@
     <input type="text" placeholder="What's the book's title?">
     <button>Add</button>
 </form>
+<form onsubmit="onSearchBook(event)">
+    <input type="text" placeholder="Search" class="search-book">
+    <button>🔎</button>
+</form>
 <div class="container">
     
 </div>
@@ -42,7 +46,16 @@
         <button onclick="onReadBook(thisID)">Details</button>
         <button onclick="onRemoveBook(event, thisID)">X</button>
     </li> -->
+<div class="msg-box hidden"></div>
 
+<footer>
+    <span>Expensive:</span>
+    <span class="expensive-books"></span>
+    <span>Average:</span>
+    <span class="average-books"></span>
+    <span>Cheap:</span>
+    <span class="cheap-books"></span>
+</footer>
     <script src="js/utils.js"></script>
     <script src="js/Book Shop.storage.js"></script>
     <script src="js/Book Shop.service.js"></script>

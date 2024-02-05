@@ -16,57 +16,97 @@ function getBooks(filterBy) {
   if (!filterBy) return gBooks
   var booksOrder = []
   var sorted = []
+  if (gByName) {
+    gBooks.find((book) => {
+      if (book.title.toUpperCase() === filterBy.toUpperCase()) {
+        console.log(book.title)
+        sorted.push(book)
+      }
+    })
+    gByName = false
+    return sorted
+  }
+  // gBooks.find((book) => {
+  //   if (book.title.toUpperCase() !== filterBy.toUpperCase()) {
+  //     console.log('works')
+  //   }
+  // })
+
   switch (filterBy) {
     case 'title-A-Z':
-      booksOrder = gBooks.reduce((acc, book) => {
-        acc.push(book.title)
-        return acc
-      }, [])
-      booksOrder.sort()
-      sorted = gBooks.reduce((acc, book, idx) => {
-        const currBook = gBooks.find((book) => book.title === booksOrder[idx])
-        acc.push(currBook)
-        return acc
-      }, [])
+      gBooks.sort((a, b) => {
+        if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
+        if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
+        return 0
+      })
+
+      // booksOrder = gBooks.reduce((acc, book) => {
+      //   acc.push(book.title.toUpperCase())
+      //   return acc
+      // }, [])
+      // booksOrder.sort()
+      // sorted = gBooks.reduce((acc, book, idx) => {
+      //   const currBook = gBooks.find(
+      //     (book) => book.title.toUpperCase() === booksOrder[idx]
+      //   )
+      //   acc.push(currBook)
+      //   return acc
+      // }, [])
       break
     case 'title-Z-A':
-      booksOrder = gBooks.reduce((acc, book) => {
-        acc.push(book.title)
-        return acc
-      }, [])
-      booksOrder.sort().reverse()
-      sorted = gBooks.reduce((acc, book, idx) => {
-        const currBook = gBooks.find((book) => book.title === booksOrder[idx])
-        acc.push(currBook)
-        return acc
-      }, [])
+      gBooks.sort((a, b) => {
+        if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
+        if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
+        return 0
+      })
+      gBooks.reverse()
+      // booksOrder = gBooks.reduce((acc, book) => {
+      //   acc.push(book.title.toUpperCase())
+      //   return acc
+      // }, [])
+      // booksOrder.sort().reverse()
+      // sorted = gBooks.reduce((acc, book, idx) => {
+      //   const currBook = gBooks.find(
+      //     (book) => book.title.toUpperCase() === booksOrder[idx]
+      //   )
+      //   acc.push(currBook)
+      //   return acc
+      // }, [])
       break
     case 'price-High-Low':
-      booksOrder = gBooks.reduce((acc, book) => {
-        acc.push(book.price)
-        return acc
-      }, [])
-      booksOrder.sort().reverse()
-      sorted = gBooks.reduce((acc, book, idx) => {
-        const currBook = gBooks.find((book) => book.price === booksOrder[idx])
-        acc.push(currBook)
-        return acc
-      }, [])
+      gBooks.sort((a, b) => {
+        return a.price - b.price
+      })
+      gBooks.reverse()
+      // booksOrder = gBooks.reduce((acc, book) => {
+      //   acc.push(book.price)
+      //   return acc
+      // }, [])
+      // booksOrder.sort().reverse()
+      // sorted = gBooks.reduce((acc, book, idx) => {
+      //   const currBook = gBooks.find((book) => book.price === booksOrder[idx])
+      //   acc.push(currBook)
+      //   return acc
+      // }, [])
       break
     case 'price-Low-High':
-      booksOrder = gBooks.reduce((acc, book) => {
-        acc.push(book.price)
-        return acc
-      }, [])
-      booksOrder.sort()
-      sorted = gBooks.reduce((acc, book, idx) => {
-        const currBook = gBooks.find((book) => book.price === booksOrder[idx])
-        acc.push(currBook)
-        return acc
-      }, [])
+      gBooks.sort((a, b) => {
+        return a.price - b.price
+      })
+      // booksOrder = gBooks.reduce((acc, book) => {
+      //   acc.push(book.price)
+      //   return acc
+      // }, [])
+      // booksOrder.sort()
+      // sorted = gBooks.reduce((acc, book, idx) => {
+      //   const currBook = gBooks.find((book) => book.price === booksOrder[idx])
+      //   acc.push(currBook)
+      //   return acc
+      // }, [])
       break
   }
-  return sorted
+  // return sorted
+  return gBooks
 }
 
 function removeBook(bookId) {
@@ -126,4 +166,31 @@ function _createBooks() {
     ]
     _saveBooks()
   }
+}
+
+function displayMsg(msg) {
+  const elMsg = document.querySelector('.msg-box')
+  elMsg.innerText = msg
+  // elMsg.classList.remove('hidden')
+  // setTimeout(() => elMsg.classList.add('hidden'), 1500)
+  elMsg.style.opacity = '1'
+  setTimeout(() => (elMsg.style.opacity = '0'), 1500)
+}
+
+function updateStats() {
+  const elExpensive = document.querySelector('.expensive-books')
+  var expensiveCounter = 0
+  const elAverage = document.querySelector('.average-books')
+  var averageCounter = 0
+  const elCheap = document.querySelector('.cheap-books')
+  var cheapCounter = 0
+
+  gBooks.forEach((book) => {
+    if (book.price > 200) expensiveCounter++
+    if (book.price <= 200 && book.price >= 80) averageCounter++
+    if (book.price < 80) cheapCounter++
+  })
+  elExpensive.innerText = expensiveCounter
+  elAverage.innerText = averageCounter
+  elCheap.innerText = cheapCounter
 }

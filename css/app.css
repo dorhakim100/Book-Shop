@@ -36,29 +36,58 @@
         color: rgb(0, 0, 0);
         transition: 400ms;
     }
-
+    
     .table tr:nth-child(odd) {
         background-color: lightgray;
     }
-
+    
     .btn {
         border-radius: 20%;
         cursor: pointer;
     }
-
+    
     .read{
         background-color: aquamarine;
     }
-
+    
     .update{
         background-color: yellow;
     }
-
+    
     .delete{
         background-color: orange;
     }
-
+    
     .book-details {
         border: 1px solid lightgray;
     }
+    
+    .msg-box{
+        text-align: center;
+        background-color: aliceblue;
+        border: 1px solid rgb(66, 94, 101);
+        transition: 0.3s;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
 
+    .hidden{
+        /* display: none; */
+        opacity: 0;
+    }
+
+    footer{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: rgb(0, 0, 0);
+        /* text-align: center; */
+        display: flex;
+        background-color: rgb(216, 237, 255);
+    }
+
+    footer > span{
+        font-size: 20px;
+        flex-grow: 1;
+        padding: 5px;
+    }

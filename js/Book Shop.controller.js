@@ -1,6 +1,8 @@
 'use strict'
 
 var gFilterBy
+var gMsg
+var gByName
 
 function onInit() {
   render()
@@ -29,6 +31,7 @@ function render() {
   )
   strHTML += strHtmls.join('') + `</table>`
   elTable.innerHTML = strHTML
+  updateStats()
 }
 
 function onRemoveBook(ev, bookId) {
@@ -36,21 +39,31 @@ function onRemoveBook(ev, bookId) {
 
   removeBook(bookId)
   render()
+  gMsg = 'Book was removed successfully'
+  displayMsg(gMsg)
 }
-
 function onUpdateBook(ev, bookId) {
   ev.stopPropagation()
 
   updatePrice(bookId)
   render()
+  gMsg = 'Price was updated successfully'
+  displayMsg(gMsg)
 }
 
 function onAddBook(ev) {
   ev.preventDefault()
   const elInput = document.querySelector('.new-book input')
+  if (elInput.value === '') {
+    gMsg = 'Enter a book with valid title'
+    displayMsg(gMsg)
+    return
+  }
   addBook(elInput.value)
   elInput.value = ''
   render()
+  gMsg = 'Book was added successfully'
+  displayMsg(gMsg)
 }
 
 function onDetailsBook(ev, bookId) {
@@ -74,7 +87,16 @@ function onDetailsBook(ev, bookId) {
 }
 
 function onSetFilterBy(elFilterBy) {
-  console.log('elFilterBy:', elFilterBy.value)
+  // console.log('elFilterBy:', elFilterBy.value)
   gFilterBy = elFilterBy.value
   render()
+}
+
+function onSearchBook(ev) {
+  ev.preventDefault()
+  gByName = true
+  const elInput = document.querySelector('.search-book')
+  gFilterBy = elInput.value
+  render()
+  elInput.value = ''
 }
