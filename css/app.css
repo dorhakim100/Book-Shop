@@ -4,26 +4,61 @@
     /* justify x axle */
     /* align y axle */ 
 
+.header-container{
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+}
+
+.modal{
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #85abd3;
+    height: 100px;
+    width: 300px;
+    transition: 0.2s;
+    opacity: 0;
+    
+}
+
+    .table-container{
+        height: 65vh;
+        overflow: scroll;
+    }
+
     table{
         text-align: center;
     border-collapse: collapse;
     border: 1px solid black;
     margin: 40px auto; 
     width: 95vw;
+    /* height: 60vh; */
+    overflow: auto;
     }
-
+    
     .title{
         font-size: 20px;
+        width: 30%
     }
     
     .price{
         font-size: 20px;
+        width: 15%
         
     }
     
     .actions{
         font-size: 20px;
-
+        width: 50%;
+        /* display: flexbox; */
+    }
+    
+    .actions-section{
+        display: flex;
+        gap: 10px;
+        
     }
 
     td  {
@@ -31,8 +66,9 @@
         /* font-size: 30px; */
         /* width: 50px;
         height: 50px; */
+        height: 40px;
         text-align: center;
-        border: 1px solid rgb(0, 0, 0);
+        border: 0.5px solid rgb(0, 0, 0);
         color: rgb(0, 0, 0);
         transition: 400ms;
     }
@@ -42,26 +78,78 @@
     }
     
     .btn {
-        border-radius: 20%;
+        border-radius: 10%;
         cursor: pointer;
+        border: 2px solid rgb(0, 174, 180);
+        
+    }
+    
+    .read-container{
+        
+        flex-grow: 1;
     }
     
     .read{
-        background-color: aquamarine;
+        background-color: #3f3f3f;
+        color: aliceblue;
+        flex-grow: 1;
+        height: 30px;
+        width: 80px;
+        
+    }
+    
+    
+    .was-read{
+        color: #00A170;
+    }
+    
+    .update-container{
+        
+        flex-grow: 1;
     }
     
     .update{
-        background-color: yellow;
+        background-color: #F5DF4D;
+        flex-grow: 1;
+        height: 30px;
+        width: 80px;
+        
+    }
+    .delete-container{
+        
+        flex-grow: 1;
     }
     
     .delete{
-        background-color: orange;
+        background-color: #FF6F61;
+        flex-grow: 1;
+        height: 30px;
+        width: 80px;
+    }
+
+    .details-container{
+        
+        flex-grow: 1;
     }
     
-    .book-details {
-        border: 1px solid lightgray;
+    .details {
+        background-color: #85abd3;
+        height: 30px;
+        width: 80px;
     }
     
+    .rater-container{
+        flex-grow: 1;
+    }
+
+    .book-price{
+        font-size: 20px;
+    }
+
+    .book-name{
+        font-size: 20px;
+    }
+
     .msg-box{
         text-align: center;
         background-color: aliceblue;
@@ -90,4 +178,15 @@
         font-size: 20px;
         flex-grow: 1;
         padding: 5px;
+    }
+
+    .no-books-msg{
+        font-size: 20px;
+        /* height: 300px; */
+        height: 50vh;
+        background-color: rgb(230, 254, 255);
+    }
+
+    .rating{
+        font-size: 20px;
     }

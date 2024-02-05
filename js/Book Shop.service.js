@@ -1,20 +1,37 @@
 'use strict'
 
+var gModalInput
+
 var gBooks = [
   {
     id: makeId(),
     title: 'The Adventures',
     price: 120,
     imgUrl: 'The Adventures.jpg',
+    rating: 1,
+    isRead: false,
   },
-  { id: makeId(), title: 'World', price: 100, imgUrl: 'World.jpg' },
-  { id: makeId(), title: 'Zorba', price: 90, imgUrl: 'Zorba.jpg' },
+  {
+    id: makeId(),
+    title: 'World',
+    price: 100,
+    imgUrl: 'World.jpg',
+    rating: 1,
+    isRead: false,
+  },
+  {
+    id: makeId(),
+    title: 'Zorba',
+    price: 90,
+    imgUrl: 'Zorba.jpg',
+    rating: 1,
+    isRead: false,
+  },
 ]
 _createBooks()
 
 function getBooks(filterBy) {
   if (!filterBy) return gBooks
-  var booksOrder = []
   var sorted = []
   if (gByName) {
     gBooks.find((book) => {
@@ -26,11 +43,6 @@ function getBooks(filterBy) {
     gByName = false
     return sorted
   }
-  // gBooks.find((book) => {
-  //   if (book.title.toUpperCase() !== filterBy.toUpperCase()) {
-  //     console.log('works')
-  //   }
-  // })
 
   switch (filterBy) {
     case 'title-A-Z':
@@ -40,18 +52,6 @@ function getBooks(filterBy) {
         return 0
       })
 
-      // booksOrder = gBooks.reduce((acc, book) => {
-      //   acc.push(book.title.toUpperCase())
-      //   return acc
-      // }, [])
-      // booksOrder.sort()
-      // sorted = gBooks.reduce((acc, book, idx) => {
-      //   const currBook = gBooks.find(
-      //     (book) => book.title.toUpperCase() === booksOrder[idx]
-      //   )
-      //   acc.push(currBook)
-      //   return acc
-      // }, [])
       break
     case 'title-Z-A':
       gBooks.sort((a, b) => {
@@ -60,52 +60,23 @@ function getBooks(filterBy) {
         return 0
       })
       gBooks.reverse()
-      // booksOrder = gBooks.reduce((acc, book) => {
-      //   acc.push(book.title.toUpperCase())
-      //   return acc
-      // }, [])
-      // booksOrder.sort().reverse()
-      // sorted = gBooks.reduce((acc, book, idx) => {
-      //   const currBook = gBooks.find(
-      //     (book) => book.title.toUpperCase() === booksOrder[idx]
-      //   )
-      //   acc.push(currBook)
-      //   return acc
-      // }, [])
+
       break
     case 'price-High-Low':
       gBooks.sort((a, b) => {
         return a.price - b.price
       })
       gBooks.reverse()
-      // booksOrder = gBooks.reduce((acc, book) => {
-      //   acc.push(book.price)
-      //   return acc
-      // }, [])
-      // booksOrder.sort().reverse()
-      // sorted = gBooks.reduce((acc, book, idx) => {
-      //   const currBook = gBooks.find((book) => book.price === booksOrder[idx])
-      //   acc.push(currBook)
-      //   return acc
-      // }, [])
+
       break
     case 'price-Low-High':
       gBooks.sort((a, b) => {
         return a.price - b.price
       })
-      // booksOrder = gBooks.reduce((acc, book) => {
-      //   acc.push(book.price)
-      //   return acc
-      // }, [])
-      // booksOrder.sort()
-      // sorted = gBooks.reduce((acc, book, idx) => {
-      //   const currBook = gBooks.find((book) => book.price === booksOrder[idx])
-      //   acc.push(currBook)
-      //   return acc
-      // }, [])
+
       break
   }
-  // return sorted
+
   return gBooks
 }
 
@@ -118,6 +89,8 @@ function removeBook(bookId) {
 
 function updatePrice(bookId) {
   const newPrice = +prompt(`What's the new price?`)
+  // openModal()
+  // const newPrice = onModalEnter()
   gBooks.map((book) => {
     if (book.id === bookId) book.price = newPrice
   })
@@ -139,6 +112,8 @@ function _createBook(txt) {
     title: txt,
     price: +prompt(`What's the new price?`),
     imgUrl: `${txt}.jpg`,
+    rating: 1,
+    isRead: false,
   }
 }
 
@@ -160,9 +135,25 @@ function _createBooks() {
         title: 'The Adventures',
         price: 120,
         imgUrl: 'The Adventures.jpg',
+        rating: 1,
+        isRead: false,
       },
-      { id: makeId(), title: 'World', price: 100, imgUrl: 'World.jpg' },
-      { id: makeId(), title: 'Zorba', price: 90, imgUrl: 'Zorba.jpg' },
+      {
+        id: makeId(),
+        title: 'World',
+        price: 100,
+        imgUrl: 'World.jpg',
+        rating: 1,
+        isRead: false,
+      },
+      {
+        id: makeId(),
+        title: 'Zorba',
+        price: 90,
+        imgUrl: 'Zorba.jpg',
+        rating: 1,
+        isRead: false,
+      },
     ]
     _saveBooks()
   }
@@ -193,4 +184,50 @@ function updateStats() {
   elExpensive.innerText = expensiveCounter
   elAverage.innerText = averageCounter
   elCheap.innerText = cheapCounter
+}
+
+function rateBookColor(bookId) {
+  const elRating = document.querySelector(`.${bookId}-rating`)
+  const book = gBooks.find((book) => book.id === bookId)
+  if (book.rating <= 2) elRating.style.color = 'red'
+  if (book.rating === 3) elRating.style.color = 'black'
+  if (book.rating >= 4) elRating.style.color = 'green'
+}
+
+function loopBooksRate(books) {
+  books.forEach((book) => {
+    rateBookColor(book.id)
+  })
+}
+
+function colorReadBook(bookId) {
+  const elBookTitle = document.getElementById(bookId)
+  const book = gBooks.find((book) => book.id === bookId)
+  if (book.isRead) elBookTitle.style.color = '#00A170'
+  if (!book.isRead) elBookTitle.style.color = 'black'
+}
+
+function loopBooksIsRead(books) {
+  const readBooks = books.filter((book) => book.isRead === true)
+  readBooks.forEach((book) => {
+    colorReadBook(book.id)
+  })
+}
+
+function openModal() {
+  const elModal = document.querySelector('.modal')
+  elModal.style.opacity = '1'
+}
+
+function closeModal() {
+  const elModal = document.querySelector('.modal')
+  elModal.style.opacity = '0'
+}
+
+function onModalEnter(ev) {
+  ev.preventDefault()
+  const elInput = document.querySelector('.modal-input input')
+  gModalInput = elInput.value
+  console.log('input:', gModalInput)
+  elInput.value = ''
 }

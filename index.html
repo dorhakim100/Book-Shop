@@ -10,7 +10,23 @@
 </head>
 
 <body onload="onInit()">
-<h1>Book Shop</h1>
+    <container class="header-container">
+        <h1>Book Shop</h1>
+        <div class="modal">
+            <div>
+                this is a modal
+            </div>
+            <div>
+
+                <form onsubmit="onModalEnter(event)" class="modal-input">
+                    <input type="text" placeholder="What's the book's title?">
+                    <button>Add</button>
+                </form>
+            </div>
+    </div>
+
+    </container>
+
 <section class="filter">
     <span>Filter by:</span>
     <select onchange="onSetFilterBy(this)">
@@ -40,6 +56,7 @@
         <button>x</button>
     </form>
 </dialog>
+
 
     <!-- <li onclick="onToggleBook(thisID)">
         <span>book name</span>
