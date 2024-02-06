@@ -23,6 +23,35 @@
     
 }
 
+.type-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: '. . .'
+                        'search last-search new-book'
+                        '. . .';
+}
+
+.search{
+    grid-area: search;
+    justify-self: center;
+    align-self: center;
+    
+}
+
+.last-search{
+    grid-area: last-search;
+    font-size: 20px;
+    
+
+}
+
+.new-book{
+    grid-area: new-book;
+    justify-self: center;
+    align-self: center;
+}
+
     .table-container{
         height: 65vh;
         overflow: scroll;

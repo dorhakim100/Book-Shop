@@ -1,8 +1,20 @@
 'use strict'
 
-var gFilterBy
+// gQueryOptions.filterBy.txt
+
+// var gQueryOptions.filterBy.txt = ''
 var gMsg
 var gByName
+var gByRating
+var isFilter
+var isSort
+var isAll
+
+var gQueryOptions = {
+  filterBy: { minRating: 0, txt: '' },
+  sortBy: '',
+  page: { index: 0, size: 4 },
+}
 
 function onInit() {
   render()
@@ -19,7 +31,7 @@ function render() {
       <td class="price">Price</td>
       <td class="actions">Actions</td>
   </tr>`
-  const books = getBooks(gFilterBy)
+  const books = getBooks(gQueryOptions)
   if (books.length === 0) {
     strHTML += `
   <tr>
@@ -131,19 +143,61 @@ function onDetailsBook(ev, bookId) {
 }
 
 function onSetFilterBy(elFilterBy) {
-  // console.log('elFilterBy:', elFilterBy.value)
-  gFilterBy = elFilterBy.value
+  isFilter = true
+  isAll = false
+  console.log('isFilter:', isFilter)
+  console.log('elFilterBy:', elFilterBy)
+  // console.log('works')
+  gQueryOptions.filterBy.minRating = elFilterBy.minRating
+  render()
+}
+
+function onSortBy(elSortBy) {
+  // isSort = true
+  gQueryOptions.sortBy = elSortBy.value
+  if (gQueryOptions.sortBy === 'All') {
+    isAll = true
+    render()
+    return
+  }
+  sortBooks(gQueryOptions.sortBy)
+  render()
+}
+
+function onClearFilter() {
+  gQueryOptions.filterBy.minRating = 0
+  gQueryOptions.filterBy.txt = ''
+  const elInput = document.querySelector('.search-book')
+  elInput.value = ''
   render()
 }
 
 function onSearchBook(ev) {
+  console.log('works')
   ev.preventDefault()
-  gByName = true
+  isFilter = true
   const elInput = document.querySelector('.search-book')
-  gFilterBy = elInput.value
+
+  const elLastSearch = document.querySelector('.last-search')
+  console.log('elLastSearch:', elLastSearch)
+  elLastSearch.innerText = 'Last search:'
+  elLastSearch.innerText += ' ' + elInput.value
+
+  gQueryOptions.filterBy.txt = elInput.value
+  console.log('gFilterBy:', gQueryOptions.filterBy.txt)
+  gByName = true
   render()
   elInput.value = ''
 }
+
+// function onSearchTyping(ev) {
+//   // console.log('works')
+//   const elInput = document.querySelector('.search-book')
+//   const currKey = ev.key
+//   gFilterBy += currKey
+//   console.log('gFilterBy:', gFilterBy)
+//   onSearchBook()
+// }
 
 function onRaterClick(ev, elBtn, bookId) {
   ev.preventDefault()

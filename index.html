@@ -18,33 +18,66 @@
             </div>
             <div>
 
+                
                 <form onsubmit="onModalEnter(event)" class="modal-input">
                     <input type="text" placeholder="What's the book's title?">
                     <button>Add</button>
                 </form>
             </div>
-    </div>
+        </div>
 
     </container>
 
+
+    <section class="car-filter">
+        <fieldset>
+            <legend>Filter & Sorting</legend>
+
+            <!-- <div class="filter-by">
+                <select class="vendor-list" onchange="onSetFilterBy({vendor: this.value})">
+                    <option value="">Select vendor</option>
+                </select> -->
+                
+                <label>
+                    <span>Min Rating:</span>
+                    <input type="range" min="0" max="5" value="3" 
+                           onchange="this.title=this.value;onSetFilterBy({minRating: +this.value})" />
+                </label>
+            </div>
+            
+            <div class="sort-by">
+                <select onchange="onSortBy(this)">
+                    <option value="All">All</option>
+                    <option value="title-A-Z">Title (A-Z)</option>
+                    <option value="title-Z-A">Title (Z-A)</option>
+                    <option value="price-High-Low">Price (High-Low)</option>
+                    <option value="price-Low-High">Price (Low-High)</option>
+                </select>
+                <button onclick="onClearFilter()">Clear Filter</button>
+                <label>
+                    <span>Descending</span>
+                    <input class="sort-desc" type="checkbox" oninput="onSetSortBy()" />
+                </label>
+            </div>
+        </fieldset> 
+    </section>
+
+    <div class="type-container">
 <section class="filter">
-    <span>Filter by:</span>
-    <select onchange="onSetFilterBy(this)">
-        <option value="">All</option>
-        <option value="title-A-Z">Title (A-Z)</option>
-        <option value="title-Z-A">Title (Z-A)</option>
-        <option value="price-High-Low">Price (High-Low)</option>
-        <option value="price-Low-High">Price (Low-High)</option>
-    </select>
+    
 </section>
 <form onsubmit="onAddBook(event)" class="new-book">
     <input type="text" placeholder="What's the book's title?">
     <button>Add</button>
 </form>
-<form onsubmit="onSearchBook(event)">
+<div class="last-search">Last search:</div>
+<form onsubmit="onSearchBook(event)" class="search">
     <input type="text" placeholder="Search" class="search-book">
     <button>🔎</button>
 </form>
+
+</div>
+
 <div class="container">
     
 </div>
@@ -58,8 +91,8 @@
 </dialog>
 
 
-    <!-- <li onclick="onToggleBook(thisID)">
-        <span>book name</span>
+<!-- <li onclick="onToggleBook(thisID)">
+    <span>book name</span>
         <button onclick="onReadBook(thisID)">Details</button>
         <button onclick="onRemoveBook(event, thisID)">X</button>
     </li> -->

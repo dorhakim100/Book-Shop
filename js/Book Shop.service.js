@@ -8,7 +8,7 @@ var gBooks = [
     title: 'The Adventures',
     price: 120,
     imgUrl: 'The Adventures.jpg',
-    rating: 1,
+    rating: getRandomIntInclusive(1, 5),
     isRead: false,
   },
   {
@@ -16,7 +16,7 @@ var gBooks = [
     title: 'World',
     price: 100,
     imgUrl: 'World.jpg',
-    rating: 1,
+    rating: getRandomIntInclusive(1, 5),
     isRead: false,
   },
   {
@@ -24,29 +24,80 @@ var gBooks = [
     title: 'Zorba',
     price: 90,
     imgUrl: 'Zorba.jpg',
-    rating: 1,
+    rating: getRandomIntInclusive(1, 5),
     isRead: false,
   },
 ]
 _createBooks()
 
 function getBooks(filterBy) {
-  if (!filterBy) return gBooks
-  var sorted = []
-  if (gByName) {
-    gBooks.find((book) => {
-      if (book.title.toUpperCase() === filterBy.toUpperCase()) {
-        console.log(book.title)
-        sorted.push(book)
-      }
-    })
-    gByName = false
-    return sorted
-  }
+  if (!filterBy || isAll) return gBooks
+  console.log('isAll:', isAll)
+  console.log('isSort:', isSort)
+  console.log('isFilter:', isFilter)
+  if (isFilter) {
+    const filtered = gBooks.filter(
+      (book) =>
+        book.title
+          .toLowerCase()
+          .includes(filterBy.filterBy.txt.toLowerCase()) &&
+        book.rating >= filterBy.filterBy.minRating
+    )
 
-  switch (filterBy) {
+    !isFilter
+
+    return filtered
+  }
+  // if (isSort) {
+
+  //   switch (filterBy.sortBy) {
+  //     case 'title-A-Z':
+  //       gBooks.sort((a, b) => {
+  //         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
+  //         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
+  //         return 0
+  //       })
+
+  //       break
+  //     case 'title-Z-A':
+  //       gBooks.sort((a, b) => {
+  //         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
+  //         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
+  //         return 0
+  //       })
+  //       gBooks.reverse()
+
+  //       break
+  //     case 'price-High-Low':
+  //       gBooks.sort((a, b) => {
+  //         return a.price - b.price
+  //       })
+  //       gBooks.reverse()
+
+  //       break
+  //     case 'price-Low-High':
+  //       gBooks.sort((a, b) => {
+  //         return a.price - b.price
+  //       })
+
+  //       break
+  //   }
+
+  //   return gBooks
+  // }
+  return gBooks
+}
+
+function sortBooks(sortBy) {
+  const sortedBooks = getBooks()
+  console.log('sortBy:', sortBy)
+  switch (sortBy) {
+    case 'All':
+      return gBooks
+
+      break
     case 'title-A-Z':
-      gBooks.sort((a, b) => {
+      sortedBooks.sort((a, b) => {
         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
         return 0
@@ -54,30 +105,30 @@ function getBooks(filterBy) {
 
       break
     case 'title-Z-A':
-      gBooks.sort((a, b) => {
+      sortedBooks.sort((a, b) => {
         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
         return 0
       })
-      gBooks.reverse()
+      sortedBooks.reverse()
 
       break
     case 'price-High-Low':
-      gBooks.sort((a, b) => {
+      sortedBooks.sort((a, b) => {
         return a.price - b.price
       })
-      gBooks.reverse()
+      sortedBooks.reverse()
 
       break
     case 'price-Low-High':
-      gBooks.sort((a, b) => {
+      sortedBooks.sort((a, b) => {
         return a.price - b.price
       })
 
       break
   }
-
-  return gBooks
+  console.log('sortedBooks:', sortedBooks)
+  return sortedBooks
 }
 
 function removeBook(bookId) {
@@ -112,7 +163,7 @@ function _createBook(txt) {
     title: txt,
     price: +prompt(`What's the new price?`),
     imgUrl: `${txt}.jpg`,
-    rating: 1,
+    rating: getRandomIntInclusive(1, 5),
     isRead: false,
   }
 }
@@ -135,7 +186,7 @@ function _createBooks() {
         title: 'The Adventures',
         price: 120,
         imgUrl: 'The Adventures.jpg',
-        rating: 1,
+        rating: getRandomIntInclusive(1, 5),
         isRead: false,
       },
       {
@@ -143,7 +194,7 @@ function _createBooks() {
         title: 'World',
         price: 100,
         imgUrl: 'World.jpg',
-        rating: 1,
+        rating: getRandomIntInclusive(1, 5),
         isRead: false,
       },
       {
@@ -151,7 +202,7 @@ function _createBooks() {
         title: 'Zorba',
         price: 90,
         imgUrl: 'Zorba.jpg',
-        rating: 1,
+        rating: getRandomIntInclusive(1, 5),
         isRead: false,
       },
     ]

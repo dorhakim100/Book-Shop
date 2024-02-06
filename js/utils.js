@@ -64,8 +64,7 @@ function countNeighbors(rowIdx, colIdx, mat) {
 // Generates random ID
 function makeId(length = 5) {
   var id = ''
-  var possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
   for (var i = 0; i < length; i++) {
     id += possible.charAt(Math.floor(Math.random() * possible.length))
