@@ -28,8 +28,8 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     grid-template-areas: '. . .'
-                        'search last-search new-book'
-                        '. . .';
+    'search last-search new-book'
+    '. . .';
 }
 
 .search{
@@ -43,13 +43,33 @@
     grid-area: last-search;
     font-size: 20px;
     
-
+    
 }
 
 .new-book{
     grid-area: new-book;
     justify-self: center;
     align-self: center;
+}
+
+.page-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-areas: '. . .'
+    'search last-search new-book'
+    '. . .'; */
+
+    
+}
+
+.pre{
+   width: 5vw; 
+   margin-left: 20px;
+}
+.next{
+    justify-self: end;
+    width: 5vw; 
+    margin-right: 30px;    
 }
 
     .table-container{

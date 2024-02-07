@@ -15,6 +15,7 @@ var gQueryOptions = {
   sortBy: '',
   page: { index: 0, size: 4 },
 }
+var pagesSize = gQueryOptions.page.size
 
 function onInit() {
   render()
@@ -22,7 +23,7 @@ function onInit() {
   loopBooksIsRead(gBooks)
 }
 
-function render() {
+function render(sortedBooks) {
   const elTable = document.querySelector('.container')
   var strHTML = `<div class="table-container">
   <table class="table">
@@ -31,7 +32,10 @@ function render() {
       <td class="price">Price</td>
       <td class="actions">Actions</td>
   </tr>`
-  const books = getBooks(gQueryOptions)
+  var books
+  if (sortedBooks) books = sortedBooks
+  else books = getBooks(gQueryOptions)
+  console.log('books:', books)
   if (books.length === 0) {
     strHTML += `
   <tr>
@@ -72,8 +76,8 @@ function render() {
     elTable.innerHTML = strHTML
     updateStats()
   }
-  loopBooksRate(gBooks)
-  loopBooksIsRead(gBooks)
+  // loopBooksRate(gBooks)
+  // loopBooksIsRead(gBooks)
 }
 
 function onReadBook(ev, bookId) {
@@ -137,7 +141,7 @@ function onDetailsBook(ev, bookId) {
   elTxt.innerText = book.title
   elPre.innerText = bookStr
   console.log('book.imgUrl:', book.imgUrl)
-  elImg.innerHTML = `<img src="js/Covers/${book.imgUrl}" alt="" height="500"</img>`
+  elImg.innerHTML = `<img src="js/Covers/${book.imgUrl}" onerror="this.src='js/Covers/book-cover.jpg'" alt="" height="500"</img>`
 
   elModal.showModal()
 }
@@ -148,20 +152,27 @@ function onSetFilterBy(elFilterBy) {
   console.log('isFilter:', isFilter)
   console.log('elFilterBy:', elFilterBy)
   // console.log('works')
+
+  gQueryOptions.page.index = 0
+
   gQueryOptions.filterBy.minRating = elFilterBy.minRating
+  getBookCount()
   render()
 }
 
 function onSortBy(elSortBy) {
   // isSort = true
+  gQueryOptions.page.index = 0
+
   gQueryOptions.sortBy = elSortBy.value
   if (gQueryOptions.sortBy === 'All') {
     isAll = true
     render()
     return
   }
+
   sortBooks(gQueryOptions.sortBy)
-  render()
+  // render()
 }
 
 function onClearFilter() {
@@ -221,4 +232,69 @@ function onRaterClick(ev, elBtn, bookId) {
   }
   elRating.innerText = book.rating
   _saveBooks()
+}
+
+function getBookCount() {
+  const bookCount = getBooks(gQueryOptions).length
+  return bookCount
+}
+
+function onPrePage() {
+  var prePage = getPrePageBooks(gQueryOptions)
+  const elPageNumber = document.querySelector('.page-number')
+  const bookCount = gBooks.length
+  const filtered = filterBooks(gQueryOptions)
+  const filteredCount = filtered.length
+  if (prePage.length === 0) {
+    gQueryOptions.page.index = Math.floor(
+      filteredCount / gQueryOptions.page.size
+    )
+    if (filteredCount % gQueryOptions.page.size === 0)
+      gQueryOptions.page.index--
+    console.log('idx:', gQueryOptions.page.index)
+    elPageNumber.innerText = `Page: ${gQueryOptions.page.index + 1}`
+    render()
+    return
+  }
+  if (gQueryOptions.page.index === 0) {
+    gQueryOptions.page.index =
+      Math.floor(filteredCount / gQueryOptions.page.size) - 1
+    elPageNumber.innerText = `Page: ${gQueryOptions.page.index + 1}`
+  } else {
+    gQueryOptions.page.index--
+    elPageNumber.innerText = `Page: ${gQueryOptions.page.index + 1}`
+  }
+  render()
+}
+
+function onNextPage() {
+  var nextPage = getNextPageBooks(gQueryOptions)
+  const elPageNumber = document.querySelector('.page-number')
+  if (nextPage.length === 0) {
+    gQueryOptions.page.index = 0
+    elPageNumber.innerText = `Page: ${gQueryOptions.page.index + 1}`
+    render()
+    return
+  }
+  const gBookCount = gBooks.length
+
+  if (gBookCount > (gQueryOptions.page.index + 1) * gQueryOptions.page.size) {
+    gQueryOptions.page.index++
+    elPageNumber.innerText = `Page: ${gQueryOptions.page.index + 1}`
+  } else {
+    gQueryOptions.page.index = 0
+    elPageNumber.innerText = `Page: ${gQueryOptions.page.index + 1}`
+  }
+  var shownBooks = getBooks(gQueryOptions)
+
+  render()
+}
+
+function showBooks(options) {
+  if (options.page) {
+    const startIdx = options.page.index * options.page.size
+    var filtered = getBooks(gQueryOptions)
+    filtered = filtered.slice(startIdx, startIdx + options.page.size)
+    // console.log('filtered:', filtered)
+  }
 }

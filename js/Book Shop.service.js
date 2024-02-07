@@ -30,74 +30,90 @@ var gBooks = [
 ]
 _createBooks()
 
-function getBooks(filterBy) {
-  if (!filterBy || isAll) return gBooks
-  console.log('isAll:', isAll)
-  console.log('isSort:', isSort)
-  console.log('isFilter:', isFilter)
-  if (isFilter) {
-    const filtered = gBooks.filter(
-      (book) =>
-        book.title
-          .toLowerCase()
-          .includes(filterBy.filterBy.txt.toLowerCase()) &&
-        book.rating >= filterBy.filterBy.minRating
-    )
+function getBooks(options) {
+  var filtered
+  // console.log('options.page:', options.page)
+  if (isAll) {
+    filtered = gBooks
 
-    !isFilter
+    if (options.page) {
+      const startIdx = options.page.index * options.page.size
+      filtered = filtered.slice(startIdx, startIdx + options.page.size)
+      // console.log('filtered:', filtered)
+    }
 
     return filtered
   }
-  // if (isSort) {
 
-  //   switch (filterBy.sortBy) {
-  //     case 'title-A-Z':
-  //       gBooks.sort((a, b) => {
-  //         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
-  //         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
-  //         return 0
-  //       })
+  if (isFilter) {
+    filtered = filterBooks(options)
 
-  //       break
-  //     case 'title-Z-A':
-  //       gBooks.sort((a, b) => {
-  //         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
-  //         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
-  //         return 0
-  //       })
-  //       gBooks.reverse()
+    if (options.page) {
+      const startIdx = options.page.index * options.page.size
+      filtered = filtered.slice(startIdx, startIdx + options.page.size)
+      // console.log('filtered:', filtered)
+    }
 
-  //       break
-  //     case 'price-High-Low':
-  //       gBooks.sort((a, b) => {
-  //         return a.price - b.price
-  //       })
-  //       gBooks.reverse()
+    return filtered
+  }
 
-  //       break
-  //     case 'price-Low-High':
-  //       gBooks.sort((a, b) => {
-  //         return a.price - b.price
-  //       })
+  filtered = gBooks
+  if (options.page) {
+    const startIdx = options.page.index * options.page.size
+    filtered = filtered.slice(startIdx, startIdx + options.page.size)
+    // console.log('filtered:', filtered)
+  }
 
-  //       break
-  //   }
+  return filtered
+}
 
-  //   return gBooks
-  // }
-  return gBooks
+function getNextPageBooks(options) {
+  var filtered = filterBooks(options)
+
+  if (options.page) {
+    const startIdx = (options.page.index + 1) * options.page.size
+    filtered = filtered.slice(startIdx, startIdx + options.page.size)
+    // console.log('filtered:', filtered)
+  }
+
+  return filtered
+}
+function getPrePageBooks(options) {
+  var filtered = filterBooks(options)
+
+  if (options.page) {
+    const startIdx = (options.page.index - 1) * options.page.size
+    filtered = filtered.slice(startIdx, startIdx + options.page.size)
+    // console.log('filtered:', filtered)
+  }
+
+  return filtered
+}
+
+function filterBooks(options) {
+  const filtered = gBooks.filter(
+    (book) =>
+      book.title.toLowerCase().includes(options.filterBy.txt.toLowerCase()) &&
+      book.rating >= options.filterBy.minRating
+  )
+
+  !isFilter
+
+  return filtered
 }
 
 function sortBooks(sortBy) {
-  const sortedBooks = getBooks()
-  console.log('sortBy:', sortBy)
+  // const sortedBooks = filterBooks(gQueryOptions)
+  const filtered = filterBooks(gQueryOptions)
+  // console.log('sortBy:', sortBy)
   switch (sortBy) {
     case 'All':
-      return gBooks
+      render(filtered)
+      return sortedBooks
 
       break
     case 'title-A-Z':
-      sortedBooks.sort((a, b) => {
+      filtered.sort((a, b) => {
         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
         return 0
@@ -105,30 +121,39 @@ function sortBooks(sortBy) {
 
       break
     case 'title-Z-A':
-      sortedBooks.sort((a, b) => {
+      filtered.sort((a, b) => {
         if (a.title.toUpperCase() < b.title.toUpperCase()) return -1
         if (a.title.toUpperCase() > b.title.toUpperCase()) return 1
         return 0
       })
-      sortedBooks.reverse()
+      filtered.reverse()
 
       break
     case 'price-High-Low':
-      sortedBooks.sort((a, b) => {
+      filtered.sort((a, b) => {
         return a.price - b.price
       })
-      sortedBooks.reverse()
+      filtered.reverse()
 
       break
     case 'price-Low-High':
-      sortedBooks.sort((a, b) => {
+      filtered.sort((a, b) => {
         return a.price - b.price
       })
 
       break
   }
+
+  const startIdx = gQueryOptions.page.index * gQueryOptions.page.size
+  const sortedBooks = filtered.slice(
+    startIdx,
+    startIdx + gQueryOptions.page.size
+  )
   console.log('sortedBooks:', sortedBooks)
-  return sortedBooks
+  console.log('filtered:', filtered)
+  gBooks = filtered
+  render(sortedBooks)
+  return filtered
 }
 
 function removeBook(bookId) {
@@ -238,8 +263,9 @@ function updateStats() {
 }
 
 function rateBookColor(bookId) {
+  const books = filterBooks(gQueryOptions)
   const elRating = document.querySelector(`.${bookId}-rating`)
-  const book = gBooks.find((book) => book.id === bookId)
+  const book = books.find((book) => book.id === bookId)
   if (book.rating <= 2) elRating.style.color = 'red'
   if (book.rating === 3) elRating.style.color = 'black'
   if (book.rating >= 4) elRating.style.color = 'green'
