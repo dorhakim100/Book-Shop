@@ -109,6 +109,8 @@ function sortBooks(sortBy) {
   switch (sortBy) {
     case 'All':
       render(filtered)
+      titleInnerText = 'Title'
+      priceInnerText = 'Price'
       return sortedBooks
 
       break
@@ -265,6 +267,7 @@ function updateStats() {
 function rateBookColor(bookId) {
   const books = filterBooks(gQueryOptions)
   const elRating = document.querySelector(`.${bookId}-rating`)
+  console.log('elRating:', elRating)
   const book = books.find((book) => book.id === bookId)
   if (book.rating <= 2) elRating.style.color = 'red'
   if (book.rating === 3) elRating.style.color = 'black'

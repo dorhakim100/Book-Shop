@@ -9,6 +9,8 @@ var gByRating
 var isFilter
 var isSort
 var isAll
+var titleInnerText = 'Title'
+var priceInnerText = 'Price'
 
 var gQueryOptions = {
   filterBy: { minRating: 0, txt: '' },
@@ -28,8 +30,8 @@ function render(sortedBooks) {
   var strHTML = `<div class="table-container">
   <table class="table">
   <tr>
-      <td class="title">Title</td>
-      <td class="price">Price</td>
+      <td class="title" onclick="onTitleClick(this)">${titleInnerText}</td>
+      <td class="price" onclick="onPriceClick(this)">${priceInnerText}</td>
       <td class="actions">Actions</td>
   </tr>`
   var books
@@ -297,4 +299,78 @@ function showBooks(options) {
     filtered = filtered.slice(startIdx, startIdx + options.page.size)
     // console.log('filtered:', filtered)
   }
+}
+
+function onTitleClick(elTitle) {
+  console.log('elTitle:', elTitle)
+  const text = elTitle.innerText
+  var sortBy
+  switch (text) {
+    case 'Title':
+      sortBy = 'title-A-Z'
+      titleInnerText = 'Title ⬇'
+      break
+    case 'Title ⬇':
+      sortBy = 'title-Z-A'
+      titleInnerText = 'Title ⬆'
+      break
+    case 'Title ⬆':
+      sortBy = 'title-A-Z'
+      titleInnerText = 'Title ⬇'
+      break
+  }
+  priceInnerText = 'Price'
+  sortBooks(sortBy)
+}
+
+function onPriceClick(elPrice) {
+  var sortBy
+  const text = elPrice.innerText
+  switch (text) {
+    case 'Price':
+      sortBy = 'price-Low-High'
+      priceInnerText = 'Price ⬆'
+      break
+    case 'Price ⬇':
+      sortBy = 'price-Low-High'
+      priceInnerText = 'Price ⬆'
+      break
+    case 'Price ⬆':
+      sortBy = 'price-High-Low'
+      priceInnerText = 'Price ⬇'
+      break
+  }
+  titleInnerText = 'Title'
+  sortBooks(sortBy)
+}
+
+function onSetSortBy() {
+  const elSortBy = document.querySelector('.sort-by select')
+  const elDir = document.querySelector('.sort-desc-div input')
+  var sortBy = elSortBy.value
+  const dir = elDir.checked ? -1 : 1
+
+  switch (sortBy) {
+    case 'price-High-Low':
+      if (dir === -1) {
+        sortBy = 'price-Low-High'
+      }
+      break
+    case 'price-Low-High':
+      if (dir === -1) {
+        sortBy = 'price-High-Low'
+      }
+      break
+    case 'title-A-Z':
+      if (dir === -1) {
+        sortBy = 'title-Z-A'
+      }
+      break
+    case 'title-Z-A':
+      if (dir === -1) {
+        sortBy = 'title-A-Z'
+      }
+      break
+  }
+  sortBooks(sortBy)
 }

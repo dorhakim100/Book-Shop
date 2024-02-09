@@ -23,6 +23,40 @@
     
 }
 
+.book-filter-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-template-areas: 'sort-by min-rating clear-filter sort-desc-div';
+
+}
+
+.sort-by{
+    grid-area: sort-by;
+    justify-self: center;
+    align-self: center;
+
+}
+
+.min-rating{
+    grid-area: min-rating;
+    justify-self: center;
+    align-self: center;
+}
+
+.clear-filter{
+    grid-area: clear-filter;
+    justify-self: center;
+    align-self: center;
+}
+
+.sort-desc-div{
+    grid-area: sort-desc-div;
+    justify-self: center;
+    align-self: center;
+}
+
+
 .type-container{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -89,12 +123,14 @@
     
     .title{
         font-size: 20px;
-        width: 30%
+        width: 30%;
+        cursor: pointer;
     }
     
     .price{
         font-size: 20px;
-        width: 15%
+        width: 15%;
+        cursor: pointer;
         
     }
     
